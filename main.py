@@ -1,8 +1,11 @@
 # Python
+import enum
 from typing import Optional
+from enum import Enum
 
 # Pydantic
 from pydantic import BaseModel
+from pydantic import Field
 
 # FastAPI
 from fastapi import FastAPI
@@ -12,12 +15,38 @@ from fastapi import Body, Query, Path
 app = FastAPI()
 
 # Models
+class Document_tipe(str, Enum):
+    cc = "cc",
+    ti = "ti"
+    
+
 class User(BaseModel):
-    user_name: str
-    mail: str
-    first_name: str
-    last_name: str
-    age: Optional[int] = None
+    user_name: str = Field(
+        ..., 
+        min_length=3, 
+        max_length=30
+    )
+    mail: str = Field(
+        ..., 
+        min_length=8, 
+        max_length=50
+    )
+    first_name: str = Field(
+        ..., 
+        min_length=3, 
+        max_length=50
+    )
+    last_name: str = Field(
+        ..., 
+        min_length=3, 
+        max_length=50
+    )
+    age: Optional[int] = Field(
+        default=None, 
+        gt=0, 
+        le=100
+    )
+    document_tipe: Document_tipe = Field(...)
     
 class Location(BaseModel):
     city: str
