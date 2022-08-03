@@ -1,11 +1,11 @@
 # Python
-import enum
 from typing import Optional
 from enum import Enum
 
 # Pydantic
 from pydantic import BaseModel
 from pydantic import Field
+from pydantic import EmailStr
 
 # FastAPI
 from fastapi import FastAPI
@@ -26,11 +26,7 @@ class User(BaseModel):
         min_length=3, 
         max_length=30
     )
-    mail: str = Field(
-        ..., 
-        min_length=8, 
-        max_length=50
-    )
+    mail: EmailStr = Field(...)
     first_name: str = Field(
         ..., 
         min_length=3, 
@@ -48,10 +44,31 @@ class User(BaseModel):
     )
     document_tipe: Document_tipe = Field(...)
     
+    class Config:
+        schema_extra = {
+            "example": {
+                "user_name": "losASRock", 
+                "mail": "cristian1clj@gmail.com", 
+                "first_name": "Cristian", 
+                "last_name": "Losada", 
+                "age": None, 
+                "document_tipe": "cc"
+            }
+        }
+    
 class Location(BaseModel):
     city: str
     state: str
     country: str
+    
+    class Config:
+        schema_extra = {
+            "example":{
+                "city": "La Ceja", 
+                "state": "Antioquia", 
+                "country": "Colombia"
+            }
+        }
 
 
 @app.get("/")
