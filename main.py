@@ -18,7 +18,6 @@ app = FastAPI()
 class Document_tipe(str, Enum):
     cc = "cc",
     ti = "ti"
-    
 
 class User(BaseModel):
     user_name: str = Field(
@@ -89,14 +88,16 @@ def show_user(
         min_length=3, 
         max_length=30, 
         title="User name", 
-        description="This es the user name. Its between 3 and 30 characters"
+        description="This es the user name. Its between 3 and 30 characters", 
+        example="losASRock"
         ), 
     mail: str = Query(
         ..., 
         min_length=8, 
         max_length=50, 
         title="User mail", 
-        description="This is the user mail. Its required"
+        description="This is the user mail. Its required", 
+        example="cristian1clj@gmila.com"
         )
 ):
     return {user_name: mail}
@@ -109,7 +110,8 @@ def show_user(
         ..., 
         gt=0, 
         title="ID", 
-        description="This is the user ID. Its required"
+        description="This is the user ID. Its required", 
+        example=12345
         )
 ):
     return {person_id: True}
@@ -122,7 +124,8 @@ def update_user(
         ..., 
         gt=0, 
         title="ID", 
-        description="This is the user ID."
+        description="This is the user ID.", 
+        example=12345
     ), 
     user: User = Body(...), 
     location: Location = Body(...)
