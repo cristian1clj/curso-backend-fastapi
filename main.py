@@ -18,6 +18,11 @@ class User(BaseModel):
     first_name: str
     last_name: str
     age: Optional[int] = None
+    
+class Location(BaseModel):
+    city: str
+    state: str
+    country: str
 
 
 @app.get("/")
@@ -62,3 +67,21 @@ def show_user(
         )
 ):
     return {person_id: True}
+
+
+# Validation request body
+@app.put("/user/{user_id}")
+def update_user(
+    user_id: int = Path(
+        ..., 
+        gt=0, 
+        title="ID", 
+        description="This is the user ID."
+    ), 
+    user: User = Body(...), 
+    location: Location = Body(...)
+):
+    results = user.dict()
+    results.update(location.dict())
+    
+    return results
